@@ -3,7 +3,6 @@
 
 <head>
     <title>Spa Lanka - Palagathure</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <style>
@@ -13,7 +12,7 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background-color: #fff;
@@ -34,6 +33,7 @@
             padding: 10px;
             border-radius: 4px;
             box-sizing: border-box;
+            width: 100%;
         }
 
         .form-group input[type="submit"] {
@@ -45,6 +45,20 @@
             cursor: pointer;
             display: block;
             margin-top: 20px;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .form-check-label {
+            margin-left: 5px;
+        }
+
+        .form-error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
         }
 
         /* Media query for small screens */
@@ -68,6 +82,7 @@
             }
         }
     </style>
+
     <script>
         function updateOutTime() {
             var inTime = document.getElementById("in-time").value;
@@ -100,16 +115,45 @@
 
             document.getElementById("text-value").value = textValue;
         }
+
+        function validateForm() {
+            var name = document.getElementById("name").value;
+            var serviceType = document.querySelector('input[name="service-type"]:checked');
+
+            var errorMessages = [];
+
+            if (name.trim() === "") {
+                errorMessages.push("Name is required");
+            }
+
+            if (!serviceType) {
+                errorMessages.push("Service Type is required");
+            }
+
+            if (errorMessages.length > 0) {
+                var errorContainer = document.getElementById("error-container");
+                errorContainer.innerHTML = "";
+                for (var i = 0; i < errorMessages.length; i++) {
+                    var errorMessage = document.createElement("div");
+                    errorMessage.className = "form-error";
+                    errorMessage.textContent = errorMessages[i];
+                    errorContainer.appendChild(errorMessage);
+                }
+                return false;
+            }
+
+            return true;
+        }
     </script>
 </head>
 
 <body>
     <div class="container">
         <?php date_default_timezone_set('Asia/Colombo'); ?>
-        <form action="palagathure_save.php" method="post">
+        <form action="palagathure_save.php" method="post" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="branch">Branch:</label>
-                <input type="text" id="branch" name="branch" value="Palagathure" class="form-control" disabled>
+                <input type="text" id="branch" name="branch" value="Palagathure" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -160,6 +204,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary">
+                <div id="error-container"></div>
             </div>
             <label>© 2023 Spa Lanka. All Rights Reserved.</label>
         </form>
