@@ -1,7 +1,7 @@
 <?php
 // Assuming you have a MySQL database set up with the following credentials
 $host = 'localhost';
-$db = 'spa_data';
+$db = 'expense_budget_db';
 $user = 'root';
 $password = '';
 
